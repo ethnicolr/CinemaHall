@@ -2,23 +2,12 @@ import React from 'react'
 import { useForm } from '../hooks/useForm'
 import { Input, FormGroup, Form, Button } from './lib'
 
-const RE_EMAIL =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
 const stateScheme = {
-    email: { value: '', errors: '' },
     password: { value: '', errors: '' },
     confirmPassword: { value: '', errors: '' },
 }
 
 const stateValidators = {
-    email: {
-        required: true,
-        validator: {
-            func: (value: string) => !RE_EMAIL.test(value),
-            error: 'Некорректный email',
-        },
-    },
     password: {
         required: true,
         validator: {
@@ -49,7 +38,11 @@ const stateValidators = {
     },
 }
 
-export const AuthSignUp = () => {
+interface Props {
+    email: string
+}
+
+export const AuthRestoreStepTwo = ({ email }: Props) => {
     const {
         values,
         errors,
@@ -72,19 +65,6 @@ export const AuthSignUp = () => {
 
     return (
         <Form onSubmit={handleSubmit}>
-            <FormGroup>
-                <Input
-                    name='email'
-                    type='email'
-                    value={values.email}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    placeholder='email'
-                />
-                {errors.email && dirty.email ? (
-                    <span>{errors.email}</span>
-                ) : null}
-            </FormGroup>
             <FormGroup>
                 <Input
                     name='password'

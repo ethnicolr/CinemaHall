@@ -7,7 +7,6 @@ const RE_EMAIL =
 
 const stateScheme = {
     email: { value: '', errors: '' },
-    password: { value: '', errors: '' },
 }
 
 const stateValidators = {
@@ -18,12 +17,13 @@ const stateValidators = {
             error: 'Некорректный email',
         },
     },
-    password: {
-        required: true,
-    },
 }
 
-export const AuthLogin = () => {
+interface Props {
+    confirmEmail: (email: string) => void
+}
+
+export const AuthRestoreStepOne = ({ confirmEmail }: Props) => {
     const {
         values,
         errors,
@@ -44,9 +44,19 @@ export const AuthLogin = () => {
         handleOnBlur(name)
     }
 
+    const restorePassword = () => {
+        return Promise.resolve(true)
+    }
+
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const response = await restorePassword()
+        confirmEmail(values.email)
+    }
+
     return (
         <>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={onSubmit}>
                 <FormGroup>
                     <Input
                         name='email'
@@ -58,19 +68,6 @@ export const AuthLogin = () => {
                     />
                     {errors.email && dirty.email ? (
                         <span>{errors.email}</span>
-                    ) : null}
-                </FormGroup>
-                <FormGroup>
-                    <Input
-                        name='password'
-                        type='password'
-                        value={values.password}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        placeholder='пароль'
-                    />
-                    {errors.password && dirty.password ? (
-                        <span>{errors.password}</span>
                     ) : null}
                 </FormGroup>
                 <div>
