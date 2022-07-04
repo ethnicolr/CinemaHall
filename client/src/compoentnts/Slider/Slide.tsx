@@ -8,6 +8,8 @@ interface Props {
 }
 
 const Container = styled.li<ContainerProps>`
+    position: relative;
+    z-index: 1;
     background-image: url(${(props) => props.url});
     background-size: cover;
     background-position: center;

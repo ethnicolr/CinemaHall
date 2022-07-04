@@ -5,17 +5,17 @@ interface FieldType {
     errors: string
 }
 
-interface FieldValidatorType<T> {
+interface FieldValidatorType {
     required: boolean
     compareField?: string
     validator?: {
-        func: (value: string, compareField?: string | null) => boolean
+        func: (value: string, compareField?: string) => boolean
         error: string
     }
 }
 
 type StateScheme<T> = Record<keyof T, FieldType>
-type StateValidators<T> = Record<keyof T, FieldValidatorType<T>>
+type StateValidators<T> = Record<keyof T, FieldValidatorType>
 
 function get_prop<T>(
     state: StateScheme<T>,
@@ -57,7 +57,7 @@ export const useForm = <T,>(
 
     const validateField = (name: KeysState, value: string) => {
         const field = stateValidator[name]
-        let compareField = field.compareField
+        const compareField = field.compareField
             ? values[field.compareField as KeysState]
             : null
         let error = ''

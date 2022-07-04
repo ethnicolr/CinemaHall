@@ -1,6 +1,6 @@
 import React from 'react'
-import { useForm } from '../hooks/useForm'
-import { Input, FormGroup, Form, Button } from './lib'
+import { useForm } from '../../hooks/useForm'
+import { Input, FormGroup, Form, Button } from '../lib'
 
 const RE_EMAIL =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import { useClickOutSide } from '../hooks/useClickOutSide'
-import { useCloseByKey } from '../hooks/useCloseByKey'
+import { useClickOutSide } from '../../hooks/useClickOutSide'
+import { useCloseByKey } from '../../hooks/useCloseByKey'
 import { StateModal, ToggleModal } from './Auth'
 
 type ModalName = keyof StateModal

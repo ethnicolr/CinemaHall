@@ -60,19 +60,13 @@ export const Slider = ({ children }: Props) => {
     }
 
     useEffect(() => {
-        const items = refContainer.current.querySelector('ul')
-        refContainer.current.addEventListener('mouseover', clearSlideIterval)
-        refContainer.current.addEventListener('mouseout', setSlideIterval)
+        const element = refContainer.current
+        element.addEventListener('mouseover', clearSlideIterval)
+        element.addEventListener('mouseout', setSlideIterval)
 
         return () => {
-            refContainer.current.removeEventListener(
-                'mouseover',
-                clearSlideIterval
-            )
-            refContainer.current.removeEventListener(
-                'mouseout',
-                setSlideIterval
-            )
+            element.removeEventListener('mouseover', clearSlideIterval)
+            element.removeEventListener('mouseout', setSlideIterval)
         }
     }, [])
 

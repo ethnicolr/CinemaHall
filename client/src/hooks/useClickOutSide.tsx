@@ -5,7 +5,6 @@ export const useClickOutSide = (
     callbackOut: () => void
 ) => {
     const handleClick = (e: MouseEvent) => {
-        console.log('click')
         if (ref.current && !ref.current.contains(e.target as Node)) {
             callbackOut()
         }

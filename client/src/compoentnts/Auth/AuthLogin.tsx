@@ -1,12 +1,13 @@
 import React from 'react'
-import { useForm } from '../hooks/useForm'
-import { Input, FormGroup, Form, Button } from './lib'
+import { useForm } from '../../hooks/useForm'
+import { Input, FormGroup, Form, Button } from '../lib'
 
 const RE_EMAIL =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
 const stateScheme = {
     email: { value: '', errors: '' },
+    password: { value: '', errors: '' },
 }
 
 const stateValidators = {
@@ -17,13 +18,12 @@ const stateValidators = {
             error: 'Некорректный email',
         },
     },
+    password: {
+        required: true,
+    },
 }
 
-interface Props {
-    confirmEmail: (email: string) => void
-}
-
-export const AuthRestoreStepOne = ({ confirmEmail }: Props) => {
+export const AuthLogin = () => {
     const {
         values,
         errors,
@@ -44,19 +44,9 @@ export const AuthRestoreStepOne = ({ confirmEmail }: Props) => {
         handleOnBlur(name)
     }
 
-    const restorePassword = () => {
-        return Promise.resolve(true)
-    }
-
-    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const response = await restorePassword()
-        confirmEmail(values.email)
-    }
-
     return (
         <>
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Input
                         name='email'
@@ -68,6 +58,19 @@ export const AuthRestoreStepOne = ({ confirmEmail }: Props) => {
                     />
                     {errors.email && dirty.email ? (
                         <span>{errors.email}</span>
+                    ) : null}
+                </FormGroup>
+                <FormGroup>
+                    <Input
+                        name='password'
+                        type='password'
+                        value={values.password}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder='пароль'
+                    />
+                    {errors.password && dirty.password ? (
+                        <span>{errors.password}</span>
                     ) : null}
                 </FormGroup>
                 <div>

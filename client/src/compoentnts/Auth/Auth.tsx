@@ -20,7 +20,7 @@ type RestoreRedirect = (
     email: string
 ) => void
 
-const AuthComponent = () => {
+const Auth = () => {
     const [modalState, setModalState] = useState<StateModal>({
         signIn: false,
         signUp: false,
@@ -88,4 +88,4 @@ const AuthComponent = () => {
     )
 }
 
-export { StateModal, ToggleModal, AuthComponent }
+export { StateModal, ToggleModal, Auth }

@@ -1,10 +1,13 @@
 import React from 'react'
-import { AuthComponent } from './Auth'
-import { LogoComponent } from './Logo'
-import { NavbarComponent } from './NavBar'
+import { Auth } from './Auth/Auth'
+import { Logo } from './Logo'
+import { Navbar } from './NavBar'
 import styled from 'styled-components'
 
 const Header = styled.header`
+    position: fixed;
+    width: 100%;
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     background-color: #0b0b0b;
@@ -20,10 +23,10 @@ const Container = styled.div`
 export const HeaderComponment = () => {
     return (
         <Header>
-            <LogoComponent />
+            <Logo />
             <Container>
-                <NavbarComponent />
-                <AuthComponent />
+                <Navbar />
+                <Auth />
             </Container>
         </Header>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
-import { useForm } from '../hooks/useForm'
-import { Input, FormGroup, Form, Button } from './lib'
+import { useForm } from '../../hooks/useForm'
+import { Input, FormGroup, Form, Button } from '../lib'
 
 const stateScheme = {
     password: { value: '', errors: '' },
