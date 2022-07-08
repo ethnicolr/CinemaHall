@@ -1,5 +1,5 @@
 import React from 'react'
-import { useForm } from '../../hooks/useForm'
+import { StateValidators, useForm } from '../../hooks/useForm'
 import { Input, FormGroup, Form, Button } from '../lib'
 
 const stateScheme = {
@@ -7,7 +7,7 @@ const stateScheme = {
     confirmPassword: { value: '', errors: '' },
 }
 
-const stateValidators = {
+const stateValidators: StateValidators<typeof stateScheme> = {
     password: {
         required: true,
         validator: {

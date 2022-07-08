@@ -31,6 +31,16 @@ const Button = styled.button`
     width: 100%;
     background-color: #667eea;
     color: #fff;
+    transition-property: background-color, border-color, color, fill, stroke,
+        opacity, box-shadow, transform;
+    transition-duration: 150ms;
+    :disabled {
+        opacity: 0.5;
+    }
+    &:hover {
+        --bg-opacity: 0.8;
+        background-color: rgba(102, 126, 234, var(--bg-opacity));
+    }
 `
 
 const Form = styled.form({

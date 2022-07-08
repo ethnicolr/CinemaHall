@@ -19,7 +19,7 @@ interface PropsParams {
 
 export const MoviePage = () => {
     const [movieData, setMovieData] = useState<Details | null>(null)
-    const { movieId } = useParams<PropsParams>()
+    const { movieId } = useParams()
     const [count, setCount] = useState(0)
 
     useEffect(() => {

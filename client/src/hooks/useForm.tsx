@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { get_prop } from '../utils'
 
 interface FieldType {
     value: string
     errors: string
 }
 
-interface FieldValidatorType {
+interface FieldValidatorType<T> {
     required: boolean
-    compareField?: string
+    compareField?: keyof T
     validator?: {
         func: (value: string, compareField?: string) => boolean
         error: string
@@ -15,25 +16,9 @@ interface FieldValidatorType {
 }
 
 type StateScheme<T> = Record<keyof T, FieldType>
-type StateValidators<T> = Record<keyof T, FieldValidatorType>
+type StateValidators<T> = Record<keyof T, FieldValidatorType<T>>
 
-function get_prop<T>(
-    state: StateScheme<T>,
-    prop: keyof FieldType
-): Record<keyof T, string>
-
-function get_prop<T>(state: StateScheme<T>): Record<keyof T, false>
-function get_prop<T extends object>(
-    state: StateScheme<T>,
-    prop?: keyof FieldType
-) {
-    return (Object.keys(state) as (keyof T)[]).reduce((field, key) => {
-        field[key] = !prop ? false : state[key][prop]
-        return field
-    }, {} as Record<keyof T, string | false>)
-}
-
-export const useForm = <T,>(
+const useForm = <T,>(
     stateScheme: StateScheme<T>,
     stateValidator: StateValidators<T>,
     onSubmit?: (...args: any[]) => void
@@ -57,10 +42,9 @@ export const useForm = <T,>(
 
     const validateField = (name: KeysState, value: string) => {
         const field = stateValidator[name]
-        const compareField = field.compareField
-            ? values[field.compareField as KeysState]
-            : null
+        const compareField = values[field.compareField]
         let error = ''
+
         if (!value && field.required) {
             error = 'Поле обязательное'
         }
@@ -90,8 +74,9 @@ export const useForm = <T,>(
         setValues((prevState) => ({ ...prevState, [name]: value }))
     }
 
-    const handleSubmit = (e: React.SyntheticEvent) => {
+    const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
+        onSubmit(values)
     }
 
     const handleOnBlur = (name: KeysState) => {
@@ -111,3 +96,5 @@ export const useForm = <T,>(
         handleOnBlur,
     }
 }
+
+export { useForm, StateValidators }

@@ -62,7 +62,7 @@ const Auth = () => {
                 toggleModal={toggleModal}
                 title='Регистрация в системе'
             >
-                <AuthSignUp />
+                <AuthSignUp toggleModal={() => toggleModal('signUp')} />
             </AuthModal>
             <AuthModal
                 isOpen={modalState.restoreOne}

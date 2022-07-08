@@ -1,6 +1,7 @@
-import React from 'react'
-import { useForm } from '../../hooks/useForm'
+import React, { useEffect } from 'react'
 import { Input, FormGroup, Form, Button } from '../lib'
+import { useAuth } from '../../hooks/useAuth'
+import { StateValidators, useForm } from '../../hooks/useForm'
 
 const RE_EMAIL =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -11,7 +12,7 @@ const stateScheme = {
     confirmPassword: { value: '', errors: '' },
 }
 
-const stateValidators = {
+const stateValidators: StateValidators<typeof stateScheme> = {
     email: {
         required: true,
         validator: {
@@ -49,7 +50,11 @@ const stateValidators = {
     },
 }
 
-export const AuthSignUp = () => {
+interface Props {
+    toggleModal: () => void
+}
+export const AuthSignUp = ({ toggleModal }: Props) => {
+    const { register, isError, isSuccess, error } = useAuth()
     const {
         values,
         errors,
@@ -58,7 +63,7 @@ export const AuthSignUp = () => {
         handleSubmit,
         disabled,
         dirty,
-    } = useForm(stateScheme, stateValidators)
+    } = useForm(stateScheme, stateValidators, register)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof typeof values
@@ -69,6 +74,12 @@ export const AuthSignUp = () => {
         const name = e.target.name as keyof typeof values
         handleOnBlur(name)
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            toggleModal()
+        }
+    }, [isSuccess])
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -111,6 +122,7 @@ export const AuthSignUp = () => {
                     <span>{errors.confirmPassword}</span>
                 ) : null}
             </FormGroup>
+            {isError && <span>{error}</span>}
             <div>
                 <Button disabled={disabled}>Регистрация</Button>
             </div>

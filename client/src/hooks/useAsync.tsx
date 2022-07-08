@@ -9,26 +9,31 @@ interface State<T = null> {
 type Status = 'idle' | 'pending' | 'resolved' | 'rejected'
 
 interface Action<T> {
-    type: Status
+    status: Status
     data?: T
     error?: Error
 }
 
 const defaultInitialState: State = { status: 'idle', data: null, error: null }
 
-function useAsync<T>(initialState: State<T>) {
+function useAsync<T>(initialState?: State<T>) {
     const [{ status, data, error }, dispatch] = useReducer<
         Reducer<State<T>, Action<T>>
     >((s, a) => ({ ...s, ...a }), { ...defaultInitialState, ...initialState })
 
     const run = useCallback((promise: Promise<T>) => {
-        dispatch({ type: 'pending' })
+        if (!promise || !promise.then) {
+            throw new Error(
+                `The argument passed to useAsync().run must be a promise.`
+            )
+        }
+        dispatch({ status: 'pending' })
         promise
             .then((data) => {
-                dispatch({ type: 'resolved', data })
+                dispatch({ status: 'resolved', data, error: null })
             })
             .catch((error: Error) => {
-                dispatch({ type: 'rejected', error })
+                dispatch({ status: 'rejected', error })
             })
     }, [])
     return {

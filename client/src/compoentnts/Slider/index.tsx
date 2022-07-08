@@ -2,7 +2,7 @@ import React from 'react'
 import { Slide } from './Slide'
 import { Slider } from './Slider'
 
-export default function SliderComponent() {
+function SliderComponent() {
     return (
         <Slider>
             <Slide cover='slideA.jpg' />
@@ -13,3 +13,5 @@ export default function SliderComponent() {
         </Slider>
     )
 }
+
+export default SliderComponent
