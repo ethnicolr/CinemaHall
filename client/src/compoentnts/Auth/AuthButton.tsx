@@ -4,6 +4,7 @@ import { AuthLogin } from './AuthLogin'
 import { AuthSignUp } from './AuthSignUp'
 import { AuthRestoreStepOne } from './AuthRestoreStepOne'
 import { AuthRestoreStepTwo } from './AuthRestoreStepTwo'
+import { useAuth } from '../../hooks/useAuth'
 
 interface StateModal {
     signIn: boolean
@@ -20,13 +21,15 @@ type RestoreRedirect = (
     email: string
 ) => void
 
-const Auth = () => {
+const AuthButton = () => {
     const [modalState, setModalState] = useState<StateModal>({
         signIn: false,
         signUp: false,
         restoreOne: false,
         restoreTwo: false,
     })
+    const { user, logout, isLoading, isIdle, isSuccess, isError, reset } =
+        useAuth()
 
     const [restoreEmail, setRestoreEmail] = useState('')
 
@@ -41,12 +44,29 @@ const Auth = () => {
             ...state,
             [modalName]: flag !== undefined ? flag : !state[modalName],
         }))
+        if (isError && !flag) {
+            reset()
+        }
+    }
+
+    const renderButton = () => {
+        if (isLoading && !Object.values(modalState).some((open) => open)) {
+            return <h2>Loading...</h2>
+        }
+        if (user && user.email) {
+            return <button onClick={logout}>logout</button>
+        }
+        return (
+            <>
+                <button onClick={() => toggleModal('signIn')}>Login in</button>
+                <button onClick={() => toggleModal('signUp')}>Registr</button>
+            </>
+        )
     }
 
     return (
         <div>
-            <button onClick={() => toggleModal('signIn')}>Login in</button>
-            <button onClick={() => toggleModal('signUp')}>Registr</button>
+            {renderButton()}
             <AuthModal
                 isOpen={modalState.signIn}
                 modalName={'signIn'}
@@ -54,7 +74,7 @@ const Auth = () => {
                 title='Вход в аккаунт'
                 redirect='restoreOne'
             >
-                <AuthLogin />
+                <AuthLogin toggleModal={() => toggleModal('signIn')} />
             </AuthModal>
             <AuthModal
                 isOpen={modalState.signUp}
@@ -88,4 +108,4 @@ const Auth = () => {
     )
 }
 
-export { StateModal, ToggleModal, Auth }
+export { StateModal, ToggleModal, AuthButton }

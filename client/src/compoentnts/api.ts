@@ -1,4 +1,5 @@
-const URL = 'http://localhost:3000'
+const URL = process.env.API_URL
+const localStorageKey = '__auth_provider_token__'
 
 interface Account {
     email: string
@@ -6,29 +7,51 @@ interface Account {
 }
 
 interface UserResponse {
-
-} 
-interface RegistrationResponse {
-    success: boolean;
-    message: string;
-  }
-
-// function handleUserResponse({user}) {
-//   window.localStorage.setItem('token', user.token)
-// }
-
-function register({ email, password }: Account): Promise<RegistrationResponse> {
-  return client('register', { email, password });
+    success: boolean
+    message?: string
+    access_token?: string
+    email?: string
+    id?: number
 }
 
-function client(endpoint: string, data: object) {
+interface Request {
+    data?: object
+    token?: string
+}
+
+function handleUserResponse(user: UserResponse) {
+    window.localStorage.setItem(localStorageKey, user.access_token)
+    return user
+}
+
+function register(form: Account): Promise<UserResponse> {
+    return client('register', { data: form })
+}
+
+function login(form: Account): Promise<UserResponse> {
+    return client('login', { data: form }).then(handleUserResponse)
+}
+
+function logout() {
+    window.localStorage.removeItem(localStorageKey)
+}
+
+function getToken() {
+    return window.localStorage.getItem(localStorageKey)
+}
+
+function client(endpoint: string, { data, token }: Request) {
     const config = {
-        method: 'POST',
+        method: data ? 'POST' : 'GET',
         body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+            'Content-Type': data ? 'application/json' : undefined,
+        },
     }
     return fetch(`${URL}/${endpoint}`, config).then(async (response) => {
         const data = await response.json()
+        console.log(response)
         if (response.ok) {
             return data
         } else {
@@ -55,4 +78,4 @@ export interface Details {
     budget: number
 }
 
-export { register, UserResponse, Account }
+export { register, login, logout, getToken, UserResponse, Account, client }

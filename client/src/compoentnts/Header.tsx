@@ -1,8 +1,9 @@
 import React from 'react'
-import { Auth } from './Auth/Auth'
+import { AuthButton } from './Auth/AuthButton'
 import { Logo } from './Logo'
 import { Navbar } from './NavBar'
 import styled from 'styled-components'
+import { AuthSuccessBaner } from './Auth/AuthSuccessBaner'
 
 const Header = styled.header`
     position: fixed;
@@ -26,7 +27,8 @@ export const HeaderComponment = () => {
             <Logo />
             <Container>
                 <Navbar />
-                <Auth />
+                <AuthButton />
+                <AuthSuccessBaner />
             </Container>
         </Header>
     )

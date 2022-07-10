@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useAuth } from '../../hooks/useAuth'
 import { useForm } from '../../hooks/useForm'
 import { Input, FormGroup, Form, Button } from '../lib'
 
@@ -23,7 +24,13 @@ const stateValidators = {
     },
 }
 
-export const AuthLogin = () => {
+interface Props {
+    toggleModal: () => void
+}
+
+export const AuthLogin = ({ toggleModal }: Props) => {
+    const { user, login, isError, isSuccess, error } = useAuth()
+
     const {
         values,
         errors,
@@ -32,7 +39,13 @@ export const AuthLogin = () => {
         handleSubmit,
         disabled,
         dirty,
-    } = useForm(stateScheme, stateValidators)
+    } = useForm(stateScheme, stateValidators, login)
+
+    useEffect(() => {
+        if (isSuccess && user.email) {
+            toggleModal()
+        }
+    }, [user, isSuccess])
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof typeof values
@@ -73,6 +86,7 @@ export const AuthLogin = () => {
                         <span>{errors.password}</span>
                     ) : null}
                 </FormGroup>
+                {isError && <span>{error}</span>}
                 <div>
                     <Button disabled={disabled}>Вход</Button>
                 </div>

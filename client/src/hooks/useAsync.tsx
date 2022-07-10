@@ -3,7 +3,7 @@ import React, { Reducer, useCallback, useEffect, useReducer } from 'react'
 interface State<T = null> {
     data: null | T
     status: Status
-    error: Error | null
+    error: string | null
 }
 
 type Status = 'idle' | 'pending' | 'resolved' | 'rejected'
@@ -11,7 +11,7 @@ type Status = 'idle' | 'pending' | 'resolved' | 'rejected'
 interface Action<T> {
     status: Status
     data?: T
-    error?: Error
+    error?: string
 }
 
 const defaultInitialState: State = { status: 'idle', data: null, error: null }
@@ -20,6 +20,10 @@ function useAsync<T>(initialState?: State<T>) {
     const [{ status, data, error }, dispatch] = useReducer<
         Reducer<State<T>, Action<T>>
     >((s, a) => ({ ...s, ...a }), { ...defaultInitialState, ...initialState })
+
+    const setData = (data: any) => dispatch({ data, status: 'idle' })
+
+    const reset = () => dispatch(defaultInitialState)
 
     const run = useCallback((promise: Promise<T>) => {
         if (!promise || !promise.then) {
@@ -32,7 +36,7 @@ function useAsync<T>(initialState?: State<T>) {
             .then((data) => {
                 dispatch({ status: 'resolved', data, error: null })
             })
-            .catch((error: Error) => {
+            .catch((error: string) => {
                 dispatch({ status: 'rejected', error })
             })
     }, [])
@@ -45,6 +49,8 @@ function useAsync<T>(initialState?: State<T>) {
         status,
         data,
         run,
+        setData,
+        reset,
     }
 }
 
