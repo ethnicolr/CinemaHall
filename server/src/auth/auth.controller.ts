@@ -4,12 +4,16 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  UseGuards,
+  Get,
+  Request,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { LoginUserDto } from 'src/users/dto/login-user.dto';
 import { AuthService } from './auth.service';
 import { LoginStatus } from './interfaces/login-status.interface';
 import { RegistrationStatus } from './interfaces/regisration-status.interface';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller()
 export class AuthController {
@@ -27,5 +31,10 @@ export class AuthController {
   @Post('login')
   async login(@Body() user: LoginUserDto): Promise<LoginStatus> {
     return await this.AuthService.login(user);
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req;
   }
 }

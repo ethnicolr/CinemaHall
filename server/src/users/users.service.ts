@@ -15,10 +15,10 @@ export class UsersService {
     private readonly userRepo: Repository<UserEntity>,
   ) {}
 
-  async findOne(options?: object): Promise<UserDto> {
-    const user = await this.userRepo.findOne(options);
-    const { id, email } = user;
-    return { id, email };
+  async findOne(email: string): Promise<UserDto | undefined> {
+    return await this.userRepo.findOne({ where: { email } });
+    // const { id, email } = user;
+    // return { id, email };
   }
 
   async create(createdUserDto: CreateUserDto): Promise<UserDto> {
