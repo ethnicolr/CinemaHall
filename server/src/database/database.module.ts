@@ -11,7 +11,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: 'root',
       database: 'cinema-hall',
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
   ],
 })

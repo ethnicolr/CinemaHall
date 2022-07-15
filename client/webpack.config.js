@@ -7,6 +7,10 @@ module.exports = {
     entry: {
         app: path.join(__dirname, 'src', 'index.tsx')
     },
+    output: {
+        filename: '[name].js',
+        path: path.resolve(__dirname, '/public')
+    },
     target: 'web',
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
@@ -24,10 +28,7 @@ module.exports = {
             },
         ],
     },
-    output: {
-        filename: '[name].js',
-        path: path.resolve(__dirname, 'dist')
-    },
+
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'index.html')

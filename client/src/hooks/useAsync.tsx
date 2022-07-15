@@ -25,19 +25,24 @@ function useAsync<T>(initialState?: State<T>) {
 
     const reset = () => dispatch(defaultInitialState)
 
-    const run = useCallback((promise: Promise<T>) => {
+    const run = useCallback(async (promise: Promise<T>) => {
+        console.log('run')
         if (!promise || !promise.then) {
             throw new Error(
                 `The argument passed to useAsync().run must be a promise.`
             )
         }
-        dispatch({ status: 'pending' })
+
         promise
             .then((data) => {
                 dispatch({ status: 'resolved', data, error: null })
             })
-            .catch((error: string) => {
-                dispatch({ status: 'rejected', error })
+            .catch((error: string | Error) => {
+                const errorMessage =
+                    typeof error === 'object' && error !== null
+                        ? error.toString()
+                        : error
+                dispatch({ status: 'rejected', error: errorMessage as string })
             })
     }, [])
     return {

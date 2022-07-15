@@ -40,7 +40,8 @@ function getToken() {
     return window.localStorage.getItem(localStorageKey)
 }
 
-function client(endpoint: string, { data, token }: Request) {
+
+function client(endpoint: string, { data, token }: Request = {}) {
     const config = {
         method: data ? 'POST' : 'GET',
         body: JSON.stringify(data),
@@ -49,9 +50,10 @@ function client(endpoint: string, { data, token }: Request) {
             'Content-Type': data ? 'application/json' : undefined,
         },
     }
+    console.log('clietn fetch')
     return fetch(`${URL}/${endpoint}`, config).then(async (response) => {
         const data = await response.json()
-        console.log(response)
+        console.log('client response', response)
         if (response.ok) {
             return data
         } else {

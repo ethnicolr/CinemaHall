@@ -20,7 +20,9 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 AuthContext.displayName = 'AuthContext'
 
 async function bootstrapAppData() {
+    console.log('get roken')
     const token = auth.getToken()
+    console.log('token', token)
     if (token) {
         return await auth.client('profile', { token })
     } else {

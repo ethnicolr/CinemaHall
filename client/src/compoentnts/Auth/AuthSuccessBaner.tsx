@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useAuth } from '../../hooks/useAuth'
 
 const AuthSuccessBaner = () => {
     const { user, login, isError, isSuccess, error } = useAuth()
+    const [hidden, setHidden] = useState(true)
 
+    useEffect(() => {
+        if (isSuccess && user) {
+            setHidden(false)
+            setInterval(() => {
+                setHidden(true)
+            }, 3000)
+        }
+    }, [user, isSuccess])
+
+    if (hidden) return null
     return (
         <Banner>
             <Wrapper>
@@ -33,11 +44,11 @@ const Wrapper = styled.div`
     justify-content: space-between;
     max-width: 1280px;
     margin: 0 auto;
-    padding: 0.75rem 2rem;
+    padding: 1rem 2rem;
 `
 
 const Message = styled.p`
-    font-size: 1rem;
+    margin: 0;
     margin-left: 0.75rem;
     font-weight: 500;
     color: #fff;
