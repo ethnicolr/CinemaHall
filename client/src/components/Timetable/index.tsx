@@ -1,13 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useAsync } from '../../../hooks/useAsync'
-import { client } from '../../api'
+import { useAsync } from '../../hooks/useAsync'
+import { client } from '../api'
 import { Filters } from './filters'
+import { SessionList } from './SessionList'
 
 interface Filter {
     date: string
     technology: string[]
     format: string[]
+}
+
+interface Movie {
+    cinemaId: number
+    name: string
+    poster: string
+    preview: string
+    description: string
+    imdbRating: string
+    yearOfCreation: string
+    country: string
+    language: string
+    genre: string
+    mainCrew: string
+    director: string
+    screenwriter: string
+    duration: string
+    ageRestriction: string
+    rentalStart: string
+}
+
+interface Session {
+    cinemaShowId: number
+    technology: string
+    format: string
+    price: number
+    startTime: string
+    cinema: Movie[]
 }
 
 type FilterChange = <K extends keyof Filter>(key: K, value: string) => void
@@ -16,7 +45,7 @@ const defaultFilter: Filter = { date: '', technology: [], format: [] }
 
 export const Timetable = () => {
     const [filter, setFilter] = useState<Filter>(defaultFilter)
-    const { data: movies, run } = useAsync()
+    const { data: sessions, run } = useAsync<Session[]>()
 
     useEffect(() => {
         const { date, technology, format } = filter
@@ -46,10 +75,12 @@ export const Timetable = () => {
             }
         })
     }
+
     return (
         <Main>
             <Titile>Расписание сеансов</Titile>
             <Filters onChange={handleFilterChange} filterValue={filter} />
+            <SessionList items={sessions} />
         </Main>
     )
 }
@@ -66,4 +97,4 @@ const Container = styled.div`
     display: flex;
     flex-direction: row;
 `
-export { FilterChange, Filter }
+export { FilterChange, Filter, Session }

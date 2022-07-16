@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect } from 'react'
 import { useAsync } from '../../hooks/useAsync'
-import * as auth from './../api'
+import * as auth from '../api'
 
 interface AuthContextType {
     user: auth.UserResponse
