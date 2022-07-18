@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { CinemaShow } from 'src/cinema-show/cinema.show.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class Movie {
@@ -49,4 +50,7 @@ export class Movie {
 
   @Column()
   rentalStart: string;
+
+  @OneToMany(() => CinemaShow, (cinema) => cinema.cinema)
+  cinemaShows: CinemaShow[];
 }

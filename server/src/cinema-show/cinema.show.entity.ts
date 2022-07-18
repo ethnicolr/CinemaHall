@@ -4,8 +4,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
-  JoinColumn,
   OneToMany,
   ManyToOne,
 } from 'typeorm';
@@ -27,8 +25,7 @@ export class CinemaShow {
   @Column({ type: 'timestamp' })
   startTime: string;
 
-  @ManyToOne(() => Movie, { eager: true })
-  @JoinColumn()
+  @ManyToOne(() => Movie, (movie) => movie.cinemaShows)
   cinema: Movie;
 
   @OneToMany(() => Ticket, (ticket) => ticket.cinemaShow)

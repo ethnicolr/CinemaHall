@@ -57,7 +57,10 @@ export class CinemaService {
         }
       }
     });
-    const records = await this.cinemaShowRepo.find({ where: filterCheck });
+    const records = await this.cinemaShowRepo.find({
+      where: filterCheck,
+      relations: { cinema: true },
+    });
     return records;
   }
 }
