@@ -50,10 +50,8 @@ function client(endpoint: string, { data, token }: Request = {}) {
             'Content-Type': data ? 'application/json' : undefined,
         },
     }
-    console.log('clietn fetch')
     return fetch(`${URL}/${endpoint}`, config).then(async (response) => {
         const data = await response.json()
-        console.log('client response', response)
         if (response.ok) {
             return data
         } else {

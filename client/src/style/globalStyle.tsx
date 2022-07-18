@@ -8,6 +8,19 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
   }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `
 
 export default GlobalStyle

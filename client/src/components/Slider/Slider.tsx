@@ -39,20 +39,17 @@ export const Slider = ({ children }: Props) => {
         } else if (mode === 'prev') {
             setCurrentSlide((current) => {
                 const prev = current - 1
-                console.log(prev, slidesCount)
                 return prev === 0 ? slidesCount : prev
             })
         }
     }
 
     const setSlideIterval = () => {
-        console.log('setSlideIterval')
         const id = setInterval(() => handleSlide('next'), 3000)
         setItervalId(id)
     }
 
     const clearSlideIterval = () => {
-        console.log('clearSlideIterval')
         setItervalId((id) => {
             clearInterval(id)
             return null

@@ -26,7 +26,6 @@ function useAsync<T>(initialState?: State<T>) {
     const reset = () => dispatch(defaultInitialState)
 
     const run = useCallback(async (promise: Promise<T>) => {
-        console.log('run')
         if (!promise || !promise.then) {
             throw new Error(
                 `The argument passed to useAsync().run must be a promise.`
