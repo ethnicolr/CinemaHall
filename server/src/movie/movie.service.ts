@@ -14,7 +14,7 @@ export class MovieService {
   ) {}
 
   async findOne(id: string): Promise<any> {
-    const movie = await this.movieRepo.find({
+    const movie = await this.movieRepo.findOne({
       where: { cinemaId: Number(id) },
       relations: {
         cinemaShows: true,

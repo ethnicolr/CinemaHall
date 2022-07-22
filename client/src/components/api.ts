@@ -40,7 +40,6 @@ function getToken() {
     return window.localStorage.getItem(localStorageKey)
 }
 
-
 function client(endpoint: string, { data, token }: Request = {}) {
     const config = {
         method: data ? 'POST' : 'GET',
@@ -60,6 +59,34 @@ function client(endpoint: string, { data, token }: Request = {}) {
     })
 }
 
+interface Movie {
+    cinemaId: number
+    name: string
+    poster: string
+    preview: string
+    description: string
+    imdbRating: string
+    yearOfCreation: string
+    country: string
+    language: string
+    genre: string
+    mainCrew: string
+    director: string
+    screenwriter: string
+    duration: string
+    ageRestriction: string
+    rentalStart: string
+    cinemaShows: CinemaShow[]
+}
+
+interface CinemaShow {
+    cinemaShowId: number
+    technology: string
+    format: string
+    price: number
+    startTime: string
+    cinema: Movie
+}
 export interface Details {
     id: string
     title: string
@@ -78,4 +105,14 @@ export interface Details {
     budget: number
 }
 
-export { register, login, logout, getToken, UserResponse, Account, client }
+export {
+    register,
+    login,
+    logout,
+    getToken,
+    UserResponse,
+    Account,
+    client,
+    Movie as MovieData,
+    CinemaShow,
+}

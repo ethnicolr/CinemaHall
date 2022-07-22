@@ -40,7 +40,7 @@ export const MoviePage = () => {
                 <Sessions data={example} />
                 <Sessions data={example} />
             </div>
-            {movieData && <MovieDetails data={movieData} />}
+            {/* {movieData && <MovieDetails data={movieData} />} */}
         </Container>
     )
 }

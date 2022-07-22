@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Filter, FilterChange } from '.'
+import { Filter, FilterChange } from '../shared/types'
 
 interface Props {
-    onChange: FilterChange
     filterValue: Filter
+    onChange: FilterChange
 }
 
 export const Filters = ({ onChange, filterValue }: Props) => {

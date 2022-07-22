@@ -1,16 +1,13 @@
 import React from 'react'
 import { HeaderComponment as Header } from './components/Header'
 import { Routes, Route, HashRouter } from 'react-router-dom'
-// import { Routes } from 'react-router-dom
-
-import { MoviesList } from './components/MoviesList'
-import Slider from './components/Slider/index'
-import './style/normalize.css'
-import { MoviePage } from './components/MoviePage'
-import { Main } from './components/Main'
 import { AuthProvider } from './components/context/auth-context'
+import { Main } from './components/Main'
+import { Timetable } from './screens/timetable'
+import { MoviePage } from './screens/moviePage'
+import { BuyTickets } from './screens/buyTickets'
 import GlobalStyle from './style/globalStyle'
-import { Timetable } from './components/Timetable'
+import './style/normalize.css'
 
 export default function App() {
     return (
@@ -20,13 +17,15 @@ export default function App() {
                     <GlobalStyle />
                     <Header />
                     <Routes>
-                        {/* <Slider /> */}
-                        {/* <MoviesList /> */}
                         <Route path='/' element={<Main />} />
                         <Route path='/timetable' element={<Timetable />} />
                         <Route
                             path={`/movie/:movieId`}
                             element={<MoviePage />}
+                        />
+                        <Route
+                            path={`/buy-tickets/:movieId`}
+                            element={<BuyTickets />}
                         />
                     </Routes>
                 </AuthProvider>

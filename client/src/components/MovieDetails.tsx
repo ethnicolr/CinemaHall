@@ -1,42 +1,60 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Details } from './api'
+import { MovieData } from './api'
 
 interface Props {
-    data: Details
+    movieData: MovieData
 }
-export const MovieDetails = ({ data }: Props) => {
+export const MovieDetails = ({ movieData }: Props) => {
+    console.log(movieData)
     const {
-        title,
-        vote_average,
-        poster_path,
-        overview,
-        tagline,
-        release_date,
-        first_air_date,
-        genres = [],
-        runtime,
-        episode_run_time,
+        cinemaId,
         name,
-        id,
-        production_countries = [],
-        budget = 0,
-    } = data
-    console.log(episode_run_time)
+        poster,
+        preview,
+        description,
+        imdbRating,
+        yearOfCreation,
+        country,
+        language,
+        genre,
+        mainCrew,
+        director,
+        screenwriter,
+        duration,
+        ageRestriction,
+        rentalStart,
+    } = movieData
     return (
         <Container>
-            <Image src={`https://image.tmdb.org/t/p/w500/${poster_path}`} />
+            <Image src={poster} />
             <dl>
                 <dt>Год</dt>
-                <dd>{release_date}</dd>
+                <dd>{yearOfCreation}</dd>
+
                 <dt>Страна</dt>
-                <dd>{production_countries.map((i) => i.name).join(', ')}</dd>
+                <dd>{country}</dd>
+
                 <dt>Язык</dt>
-                <dd>Русский</dd>
+                <dd>{language}</dd>
+
                 <dt>Жанр</dt>
-                <dd>{genres.map((i) => i.name).join(', ')}</dd>
+                <dd>{genre}</dd>
+
+                <dt>В главных ролях</dt>
+                <dd>{mainCrew}</dd>
+
+                <dt>Режиссёр</dt>
+                <dd>{director}</dd>
+
+                <dt>Сценарист</dt>
+                <dd>{screenwriter}</dd>
+
                 <dt>Продолжительность</dt>
-                <dd>{runtime}</dd>
+                <dd>{duration}</dd>
+
+                <dt>Возрастное ограничение</dt>
+                <dd>{ageRestriction}</dd>
             </dl>
         </Container>
     )
@@ -46,5 +64,15 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 12rem;
+    dd {
+        margin: 0;
+        margin-bottom: 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    dt {
+        color: #a0aec0;
+        font-size: 0.75rem;
+    }
 `
 const Image = styled.img``

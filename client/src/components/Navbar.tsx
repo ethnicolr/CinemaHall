@@ -25,7 +25,7 @@ const Item = styled(NavLink).attrs({ activeClassName })`
 export const Navbar = () => {
     return (
         <Nav>
-            <Item to='/timetable'>Расsssssssssписание</Item>
+            <Item to='/timetable'>Расписание</Item>
 
             <Item to='/Фильмы'>Фильмы</Item>
 
